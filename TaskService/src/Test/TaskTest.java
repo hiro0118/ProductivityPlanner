@@ -36,7 +36,7 @@ class TaskTest {
 
         Assertions.assertEquals(2, matches.size());
         Assertions.assertTrue(matches.contains(task));
-        Assertions.assertTrueg(matches.contains(sameTask));
+        Assertions.assertTrue(matches.contains(sameTask));
     }
 
     // Class to make Task concrete for tests
