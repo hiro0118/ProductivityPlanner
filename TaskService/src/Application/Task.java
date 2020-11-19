@@ -6,8 +6,6 @@ public abstract class Task {
 
     private static final int TITLE_MAX_LENGTH = 30;
     private static final int NOTE_MAX_LENGTH = 100;
-    private static final String TITLE_KEY = "title";
-    private static final String NOTE_KEY = "note";
 
     private final int id;
     private String title;
@@ -23,7 +21,7 @@ public abstract class Task {
         this.id = id;
         this.title = validateTitle(title);
         this.date = date;
-        this.note = note;
+        this.note = validateNote(note);
     }
 
     public int getId() {
@@ -64,17 +62,19 @@ public abstract class Task {
 
     private String validateTitle(String input) {
         if (input == null || input.isEmpty()) {
-            throw new IllegalArgumentException("The title cannot be empty!");
+            throw new IllegalArgumentException("The title cannot be null nor empty!");
         }
         if (input.length() > TITLE_MAX_LENGTH) {
-            throw new IllegalArgumentException("The title cannot be longer than " + TITLE_MAX_LENGTH + "characters!");
+            throw new IllegalArgumentException("The title cannot be longer than " + TITLE_MAX_LENGTH
+                    + " characters! input: " + input + ", length=" + input.length());
         }
         return input;
     }
 
     private String validateNote(String input) {
-        if (input.length() > TITLE_MAX_LENGTH) {
-            throw new IllegalArgumentException("The note cannot be longer than " + TITLE_MAX_LENGTH + "characters!");
+        if (input.length() > NOTE_MAX_LENGTH) {
+            throw new IllegalArgumentException("The note cannot be longer than " + NOTE_MAX_LENGTH
+                    + " characters! input=" + input + ", length=" + input.length());
         }
         return input;
     }
@@ -96,9 +96,10 @@ public abstract class Task {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Task)) {
+        if (obj instanceof Task) {
+            return obj.hashCode() == this.hashCode();
+        } else {
             return false;
         }
-        return obj.hashCode() == this.hashCode();
-    } //TODO implement equals
+    }
 }
