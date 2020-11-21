@@ -13,10 +13,6 @@ public abstract class Task {
     private boolean completed = false;
     private String note;
 
-    public Task(int id, String title, Date date) {
-        this(id, title, date, "");
-    }
-
     public Task(int id, String title, Date date, String note) {
         this.id = id;
         this.title = validateTitle(title);
