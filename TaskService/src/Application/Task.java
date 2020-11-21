@@ -81,7 +81,14 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return ""; //TODO implement toString
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName());
+        builder.append("@").append(id);
+        builder.append("[title=").append(title);
+        builder.append(",date=").append(date);
+        builder.append(",completed=").append(completed);
+        builder.append("]");
+        return builder.toString();
     }
 
     @Override
