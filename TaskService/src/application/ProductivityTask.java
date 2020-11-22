@@ -8,8 +8,11 @@ public class ProductivityTask extends Task {
 	private int targetTime;
 	private int actualTime;
 
-	public ProductivityTask(int id, String title, Date date, String note) {
+	public ProductivityTask(int id, String title, Date date, String note, TaskPriority priority, int targetTime, int actualTime) {
 		super(id, title, date, note);
+		this.priority = priority;
+		this.targetTime = targetTime;
+		this.actualTime = actualTime;
 	}
 
 	public TaskPriority getPriority() {
