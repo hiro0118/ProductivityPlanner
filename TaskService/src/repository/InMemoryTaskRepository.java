@@ -14,14 +14,26 @@ public class InMemoryTaskRepository implements ITaskRepository {
 
 	@Override
 	public synchronized void save(ProductivityTask task) {
-		ProductivityTask copy = new ProductivityTask(task.getId(), task.getTitle(), task.getDate(), task.getNote(),
-				task.getPriority(), task.getTargetTime(), task.getActualTime());
+		ProductivityTask copy = new ProductivityTask(task.getId(), task.getTitle(), task.getDate(), task.isCompleted(),
+				task.getNote(), task.getPriority(), task.getTargetTime(), task.getActualTime());
 		taskMap.put(copy.getId(), copy);
 	}
 
 	@Override
-	public synchronized ProductivityTask find(int identity) {
-		return taskMap.get(identity);
+	public synchronized void update(ProductivityTask task) {
+		ProductivityTask copy = new ProductivityTask(task.getId(), task.getTitle(), task.getDate(), task.isCompleted(),
+				task.getNote(), task.getPriority(), task.getTargetTime(), task.getActualTime());
+		taskMap.replace(copy.getId(), copy);
+	}
+
+	@Override
+	public synchronized void delete(int id) {
+		taskMap.remove(id);
+	}
+
+	@Override
+	public synchronized ProductivityTask find(int id) {
+		return taskMap.get(id);
 	}
 
 	@Override

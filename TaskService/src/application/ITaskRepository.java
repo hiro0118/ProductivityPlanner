@@ -6,7 +6,11 @@ public interface ITaskRepository {
 
 	void save(ProductivityTask task);
 
-	ProductivityTask find(int identity);
+	void update(ProductivityTask task);
+
+	void delete(int id);
+
+	ProductivityTask find(int id);
 
 	List<ProductivityTask> getAll();
 }

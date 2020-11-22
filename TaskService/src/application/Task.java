@@ -13,10 +13,11 @@ public abstract class Task {
 	private boolean completed = false;
 	private String note;
 
-	public Task(int id, String title, Date date, String note) {
+	public Task(int id, String title, Date date, boolean completed, String note) {
 		this.id = id;
 		this.title = validateTitle(title);
 		this.date = date;
+		this.completed = completed;
 		this.note = validateNote(note);
 	}
 

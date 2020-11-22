@@ -20,13 +20,13 @@ class TaskTest {
 
 	// Class to make Task concrete for tests
 	private class TaskForTest extends Task {
-		private TaskForTest(int id, String title, Date date, String note) {
-			super(id, title, date, note);
+		private TaskForTest(int id, String title, Date date, boolean completed, String note) {
+			super(id, title, date, completed, note);
 		}
 	}
 
 	private Task createValidTask() {
-		return new TaskForTest(1, "title", new Date(1500000000), "note");
+		return new TaskForTest(1, "title", new Date(1500000000), false,"note");
 	}
 
 	@Test
@@ -35,12 +35,12 @@ class TaskTest {
 		List<Task> tasks = new ArrayList<>();
 
 		Date date = new Date(1500000000);
-		TaskForTest task = new TaskForTest(1, "title", date, "note");
-		TaskForTest sameTask = new TaskForTest(1, "title", date, "note");
-		TaskForTest diffId = new TaskForTest(2, "title", date,"note");
-		TaskForTest diffTitle = new TaskForTest(1, "diffTitle", date,"note");
-		TaskForTest diffDate = new TaskForTest(1, "title", new Date(1510000000),"note");
-		TaskForTest diffNote = new TaskForTest(1, "title", date,"diffNote");
+		TaskForTest task = new TaskForTest(1, "title", date, false, "note");
+		TaskForTest sameTask = new TaskForTest(1, "title", date, false, "note");
+		TaskForTest diffId = new TaskForTest(2, "title", date, false,"note");
+		TaskForTest diffTitle = new TaskForTest(1, "diffTitle", date, false,"note");
+		TaskForTest diffDate = new TaskForTest(1, "title", new Date(1510000000), false,"note");
+		TaskForTest diffNote = new TaskForTest(1, "title", date, false,"diffNote");
 
 		tasks.add(task);
 		tasks.add(sameTask);
@@ -72,7 +72,7 @@ class TaskTest {
 
 	private void assertNoExceptionForTitle(String titleInput) {
 		Assertions.assertDoesNotThrow(() -> {
-			new TaskForTest(1, titleInput, new Date(1500000000), "note");
+			new TaskForTest(1, titleInput, new Date(1500000000), false, "note");
 		});
 	}
 
@@ -101,7 +101,7 @@ class TaskTest {
 	}
 
 	private <T extends Throwable> void assertTitleExceptionInCreation(String titleInput, Class<T> expectedType, String expectedMessage) {
-		T exception32 = Assertions.assertThrows(expectedType, () -> new TaskForTest(1, titleInput, new Date(1500000000), "note"));
+		T exception32 = Assertions.assertThrows(expectedType, () -> new TaskForTest(1, titleInput, new Date(1500000000), false, "note"));
 		String actualMessage32 = exception32.getMessage();
 		Assertions.assertTrue(actualMessage32.contains(expectedMessage));
 	}
@@ -109,16 +109,16 @@ class TaskTest {
 	@Test
 	public void constructor_validNote_ExceptionNotThrown() {
 		String validNote1 = "1";
-		Assertions.assertDoesNotThrow(() -> { new TaskForTest(1, "title", new Date(1500000000), validNote1); });
+		Assertions.assertDoesNotThrow(() -> { new TaskForTest(1, "title", new Date(1500000000), false, validNote1); });
 
 		String validNote100 = "1111111111222222222233333333334444444444555555555566666666667777777777888888888899999999991111111111";
-		Assertions.assertDoesNotThrow(() -> { new TaskForTest(1, "title", new Date(1500000000), validNote100); });
+		Assertions.assertDoesNotThrow(() -> { new TaskForTest(1, "title", new Date(1500000000), false, validNote100); });
 
 		StringBuilder noteBuilder = new StringBuilder();
 		for (int i = 0; i < NOTE_MAX_LENGTH; i++) {
 			noteBuilder.append("a");
 			Assertions.assertDoesNotThrow(() -> {
-				new TaskForTest(1, "title", new Date(1500000000), noteBuilder.toString());
+				new TaskForTest(1, "title", new Date(1500000000), false, noteBuilder.toString());
 			});
 		}
 	}
@@ -135,7 +135,7 @@ class TaskTest {
 
 	private <T extends Throwable> void assertNoteExceptionInCreation(String noteInput, Class<T> expectedType, String expectedMessage) {
 		T exception32 = Assertions.assertThrows(expectedType,
-				() -> new TaskForTest(1, "title", new Date(1500000000), noteInput));
+				() -> new TaskForTest(1, "title", new Date(1500000000), false, noteInput));
 		String actualMessage32 = exception32.getMessage();
 		Assertions.assertTrue(actualMessage32.contains(expectedMessage));
 	}
