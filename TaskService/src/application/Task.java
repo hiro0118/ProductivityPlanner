@@ -84,8 +84,13 @@ public abstract class Task {
 		builder.append("[title=").append(title);
 		builder.append(",date=").append(date);
 		builder.append(",completed=").append(completed);
+		appendPropertyStrings(builder);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	protected void appendPropertyStrings(StringBuilder builder) {
+		return;
 	}
 
 	@Override
