@@ -1,18 +1,84 @@
 package application;
 
-import java.util.Date;
+public class ProductivityTask {
 
-public class ProductivityTask extends Task {
+	private static final int TITLE_MAX_LENGTH = 30;
+	private static final int NOTE_MAX_LENGTH = 100;
 
+	private final int id;
+	private String title;
+	private TaskDate date;
+	private boolean completed = false;
+	private String note;
 	private TaskPriority priority;
 	private int targetTime;
 	private int actualTime;
 
-	public ProductivityTask(int id, String title, TaskDate date, boolean completed, String note, TaskPriority priority, int targetTime, int actualTime) {
-		super(id, title, date, completed, note);
+	public ProductivityTask(int id, String title, TaskDate date, boolean completed, String note,
+			TaskPriority priority, int targetTime, int actualTime) {
+		this.id = id;
+		this.title = validateTitle(title);
+		this.date = date;
+		this.completed = completed;
+		this.note = validateNote(note);
 		this.priority = priority;
 		this.targetTime = targetTime;
 		this.actualTime = actualTime;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = validateTitle(title);
+	}
+
+	public TaskDate getDate() {
+		return date;
+	}
+
+	public void setDate(TaskDate date) {
+		this.date = date;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = validateNote(note);
+	}
+
+	private String validateTitle(String input) {
+		if (input == null || input.isEmpty()) {
+			throw new IllegalArgumentException("The title cannot be null nor empty!");
+		}
+		if (input.length() > TITLE_MAX_LENGTH) {
+			throw new IllegalArgumentException("The title cannot be longer than " + TITLE_MAX_LENGTH
+					+ " characters! input: " + input + ", length=" + input.length());
+		}
+		return input;
+	}
+
+	private String validateNote(String input) {
+		if (input.length() > NOTE_MAX_LENGTH) {
+			throw new IllegalArgumentException("The note cannot be longer than " + NOTE_MAX_LENGTH
+					+ " characters! input=" + input + ", length=" + input.length());
+		}
+		return input;
 	}
 
 	public TaskPriority getPriority() {
@@ -41,22 +107,29 @@ public class ProductivityTask extends Task {
 
 	@Override
 	public String toString() {
-		return super.toString();
-	}
-
-	@Override
-	protected void appendPropertyStrings(StringBuilder builder) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getClass().getSimpleName());
+		builder.append("@").append(id);
+		builder.append("[title=").append(title);
+		builder.append(",date=").append(date);
+		builder.append(",completed=").append(completed);
 		builder.append(",priority=").append(priority);
 		builder.append(",targetTime=").append(targetTime);
 		builder.append(",actualTime=").append(actualTime);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = super.hashCode();
+		int result = Integer.hashCode(id);
+		result = 31 * result + title.hashCode();
+		result = 31 * result + date.hashCode();
+		result = 31 * result + Boolean.hashCode(completed);
+		result = 31 * result + note.hashCode();
 		result = 31 * result + priority.hashCode();
 		result = 31 * result + Integer.hashCode(targetTime);
-		result = 31 * result + Integer.hashCode(targetTime);
+		result = 31 * result + Integer.hashCode(actualTime);
 		return result;
 	}
 

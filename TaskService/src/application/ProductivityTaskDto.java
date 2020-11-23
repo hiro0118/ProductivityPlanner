@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProductivityTaskDto {
 
-	private final int id;
+	private final int id; //TODO id is unnecessary for input!
 	private final String title;
 	private final Date date;
 	private final boolean completed;
