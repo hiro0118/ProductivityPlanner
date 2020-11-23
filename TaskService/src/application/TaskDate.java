@@ -26,8 +26,7 @@ public class TaskDate {
 
 	@Override
 	public String toString() {
-		String builder = getClass().getSimpleName() + "=" + DateString;
-		return builder;
+		return getClass().getSimpleName() + "=" + DateString;
 	}
 
 	@Override
