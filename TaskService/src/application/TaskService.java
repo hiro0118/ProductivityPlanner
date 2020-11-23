@@ -73,14 +73,15 @@ public class TaskService implements ITaskService {
 		synchronized (repository) {
 			tasksInRepository = repository.getAll();
 		}
+		TaskDate taskDate = new TaskDate(date);
 		return tasksInRepository.stream()
-				.filter(task -> task.getDate().equals(date))
+				.filter(task -> task.getDate().equals(taskDate))
 				.map(task -> new ProductivityTaskDto(task))
 				.collect(Collectors.toList());
 	}
 
 	private ProductivityTask createProductivityTaskFrom(ProductivityTaskDto input) {
-		return new ProductivityTask(input.getId(), input.getTitle(), input.getDate(), input.isCompleted(),
+		return new ProductivityTask(input.getId(), input.getTitle(), new TaskDate(input.getDate()), input.isCompleted(),
 				input.getNote(), input.getPriority(), input.getTargetTime(), input.getActualTime());
 	}
 }

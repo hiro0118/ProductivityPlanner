@@ -28,7 +28,7 @@ public class ProductivityTaskDto {
 	public ProductivityTaskDto(ProductivityTask source) {
 		this.id = source.getId();
 		this.title = source.getTitle();
-		this.date = source.getDate();
+		this.date = source.getDate().getDate();
 		this.completed = source.isCompleted();
 		this.note = source.getNote();
 		this.priority = source.getPriority();

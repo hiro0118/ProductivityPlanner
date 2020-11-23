@@ -102,8 +102,8 @@ class TaskServiceTest {
 
 	@Test
 	public void getTasksOn_getTasksForDifferentDates_returnsExpectedTask() {
-		Date dateA = new Date(1500000000);
-		Date dateB = new Date(1600000000);
+		Date dateA = new Date(1500000000000L);
+		Date dateB = new Date(1600000000000L);
 		ProductivityTaskDto input1 = createDtoWithIdAndDate(1, dateA);
 		ProductivityTaskDto input2 = createDtoWithIdAndDate(2, dateA);
 		ProductivityTaskDto input3 = createDtoWithIdAndDate(3, dateB);
@@ -120,12 +120,12 @@ class TaskServiceTest {
 		Assertions.assertEquals(1, tasksOnDateB.size());
 		Assertions.assertTrue(tasksOnDateB.contains(input3));
 
-		List<ProductivityTaskDto> tasksOnDifferentDate = service.getTasksOn(new Date(1700000000));
+		List<ProductivityTaskDto> tasksOnDifferentDate = service.getTasksOn(new Date(1700000000000L));
 		Assertions.assertEquals(0, tasksOnDifferentDate.size());
 	}
 
 	private ProductivityTaskDto createDtoWithId(int id) {
-		return new ProductivityTaskDto(id, "title", new Date(1500000000), false, "note",
+		return new ProductivityTaskDto(id, "title", new Date(1500000000000L), false, "note",
 				TaskPriority.MOST_IMPORTANT, 0, 0);
 	}
 

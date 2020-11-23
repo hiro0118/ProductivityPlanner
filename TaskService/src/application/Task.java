@@ -9,11 +9,11 @@ public abstract class Task {
 
 	private final int id;
 	private String title;
-	private Date date;
+	private TaskDate date;
 	private boolean completed = false;
 	private String note;
 
-	public Task(int id, String title, Date date, boolean completed, String note) {
+	public Task(int id, String title, TaskDate date, boolean completed, String note) {
 		this.id = id;
 		this.title = validateTitle(title);
 		this.date = date;
@@ -33,11 +33,11 @@ public abstract class Task {
 		this.title = validateTitle(title);
 	}
 
-	public Date getDate() {
+	public TaskDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(TaskDate date) {
 		this.date = date;
 	}
 
