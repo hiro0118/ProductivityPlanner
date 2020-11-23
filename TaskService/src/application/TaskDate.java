@@ -2,12 +2,9 @@ package application;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class TaskDate {
-
-	private final static SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
 	private final Date date;
 	private final String DateString;
@@ -29,10 +26,8 @@ public class TaskDate {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(getClass().getSimpleName());
-		builder.append("=").append(DateString);
-		return builder.toString();
+		String builder = getClass().getSimpleName() + "=" + DateString;
+		return builder;
 	}
 
 	@Override
