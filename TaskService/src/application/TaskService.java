@@ -81,7 +81,11 @@ public class TaskService implements ITaskService {
 	}
 
 	private ProductivityTask createProductivityTaskFrom(ProductivityTaskDto input) {
-		return new ProductivityTask(input.getId(), input.getTitle(), new TaskDate(input.getDate()), input.isCompleted(),
-				input.getNote(), input.getPriority(), input.getTargetTime(), input.getActualTime());
+		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDate(), input.getPriority())
+				.completed(input.isCompleted())
+				.note(input.getNote())
+				.targetTime(input.getTargetTime())
+				.actualTime(input.getActualTime())
+				.build();
 	}
 }

@@ -21,8 +21,11 @@ class ProductivityTaskTest {
 	private static final String NOTE_TOO_LONG_ERROR = "The note cannot be longer than";
 
 	private ProductivityTask createValidTask() {
-		return new ProductivityTask(1, "title", new TaskDate(new Date(1500000000000L)), false, "note",
-				TaskPriority.MOST_IMPORTANT, 0, 0);
+		return createDefaultBuilder().build();
+	}
+
+	private ProductivityTask.Builder createDefaultBuilder() {
+		return new ProductivityTask.Builder(1, "title", new Date(1500000000000L), TaskPriority.MOST_IMPORTANT);
 	}
 
 	@Test
@@ -32,15 +35,15 @@ class ProductivityTaskTest {
 
 		TaskDate date = new TaskDate(new Date(1500000000));
 		TaskPriority priority = TaskPriority.MOST_IMPORTANT;
-		ProductivityTask task = new ProductivityTask(1, "title", date, false, "note", priority, 0, 0);
-		ProductivityTask sameTask = new ProductivityTask(1, "title", date, false, "note", priority, 0, 0);
-		ProductivityTask diffId = new ProductivityTask(2, "title", date, false, "note", priority, 0, 0);
-		ProductivityTask diffTitle = new ProductivityTask(1, "diffTitle", date, false, "note", priority, 0, 0);
-		ProductivityTask diffDate = new ProductivityTask(1, "title", new TaskDate(new Date(1600000000000L)), false, "note", priority, 0, 0);
-		ProductivityTask diffNote = new ProductivityTask(1, "title", date, false, "diffNote", priority, 0, 0);
-		ProductivityTask diffPriority = new ProductivityTask(1, "title", date, false, "note", TaskPriority.SECONDARY, 0, 0);
-		ProductivityTask diffTarget = new ProductivityTask(1, "title", date, false, "note", priority, 1, 0);
-		ProductivityTask diffActual = new ProductivityTask(1, "title", date, false, "note", priority, 0, 1);
+		ProductivityTask task = new ProductivityTask.Builder(1, "title", date, priority).build();
+		ProductivityTask sameTask = new ProductivityTask.Builder(1, "title", date, priority).build();
+		ProductivityTask diffId = new ProductivityTask.Builder(2, "title", date, priority).build();
+		ProductivityTask diffTitle = new ProductivityTask.Builder(1, "diffTitle", date, priority).build();
+		ProductivityTask diffDate = new ProductivityTask.Builder(1, "title", new TaskDate(new Date(1600000000)), priority).build();
+		ProductivityTask diffNote = new ProductivityTask.Builder(1, "title", date, priority).note("diffMote").build();
+		ProductivityTask diffPriority = new ProductivityTask.Builder(1, "title", date, TaskPriority.SECONDARY).build();
+		ProductivityTask diffTarget = new ProductivityTask.Builder(1, "title", date, priority).targetTime(1).build();
+		ProductivityTask diffActual = new ProductivityTask.Builder(1, "title", date, priority).actualTime(1).build();
 
 		tasks.add(task);
 		tasks.add(sameTask);
@@ -75,8 +78,7 @@ class ProductivityTaskTest {
 
 	private void assertNoExceptionForTitle(String titleInput) {
 		Assertions.assertDoesNotThrow(() -> {
-			new ProductivityTask(1, titleInput, new TaskDate(new Date(1500000000000L)), false, "note",
-					TaskPriority.MOST_IMPORTANT, 0, 0);
+			new ProductivityTask.Builder(1, titleInput, new Date(1500000000000L), TaskPriority.MOST_IMPORTANT).build();
 		});
 	}
 
@@ -104,7 +106,7 @@ class ProductivityTaskTest {
 	}
 
 	private <T extends Throwable> void assertTitleExceptionInCreation(String titleInput, Class<T> expectedType, String expectedMessage) {
-		T exception = Assertions.assertThrows(expectedType, () -> new ProductivityTask(1, titleInput, new TaskDate(new Date(1500000000)), false, "note", TaskPriority.MOST_IMPORTANT, 0, 0));
+		T exception = Assertions.assertThrows(expectedType, () -> new ProductivityTask.Builder(1, titleInput, new Date(1500000000), TaskPriority.MOST_IMPORTANT).build());
 		String actualMessage = exception.getMessage();
 		Assertions.assertTrue(actualMessage.contains(expectedMessage));
 	}
@@ -112,16 +114,15 @@ class ProductivityTaskTest {
 	@Test
 	public void constructor_validNote_ExceptionNotThrown() {
 		String validNote1 = "1";
-		Assertions.assertDoesNotThrow(() -> new ProductivityTask(1, "title", new TaskDate(new Date(1500000000000L)), false, validNote1, TaskPriority.MOST_IMPORTANT, 0, 0));
+		Assertions.assertDoesNotThrow(() -> createDefaultBuilder().note(validNote1).build());
 
 		String validNote100 = "1111111111222222222233333333334444444444555555555566666666667777777777888888888899999999991111111111";
-		Assertions.assertDoesNotThrow(() -> new ProductivityTask(1, "title", new TaskDate(new Date(1500000000000L)), false, validNote100, TaskPriority.MOST_IMPORTANT, 0, 0));
+		Assertions.assertDoesNotThrow(() -> createDefaultBuilder().note(validNote100).build());
 
 		StringBuilder noteBuilder = new StringBuilder();
 		for (int i = 0; i < NOTE_MAX_LENGTH; i++) {
 			noteBuilder.append("a");
-			Assertions.assertDoesNotThrow(() ->
-				new ProductivityTask(1, "title", new TaskDate(new Date(1500000000000L)), false, noteBuilder.toString(), TaskPriority.MOST_IMPORTANT, 0, 0));
+			Assertions.assertDoesNotThrow(() -> createDefaultBuilder().note(noteBuilder.toString()).build());
 		}
 	}
 
@@ -136,8 +137,7 @@ class ProductivityTaskTest {
 
 
 	private <T extends Throwable> void assertNoteExceptionInCreation(String noteInput, Class<T> expectedType, String expectedMessage) {
-		T exception = Assertions.assertThrows(expectedType,
-				() -> new ProductivityTask(1, "title", new TaskDate(new Date(1500000000000L)), false, noteInput, TaskPriority.MOST_IMPORTANT, 0, 0));
+		T exception = Assertions.assertThrows(expectedType, () -> createDefaultBuilder().note(noteInput).build());
 		String actualMessage = exception.getMessage();
 		Assertions.assertTrue(actualMessage.contains(expectedMessage));
 	}

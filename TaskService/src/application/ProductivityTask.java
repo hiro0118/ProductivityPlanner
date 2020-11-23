@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Date;
+
 public class ProductivityTask {
 
 	private static final int TITLE_MAX_LENGTH = 30;
@@ -8,22 +10,21 @@ public class ProductivityTask {
 	private final int id;
 	private String title;
 	private TaskDate date;
-	private boolean completed = false;
+	private boolean completed;
 	private String note;
 	private TaskPriority priority;
 	private int targetTime;
 	private int actualTime;
 
-	public ProductivityTask(int id, String title, TaskDate date, boolean completed, String note,
-			TaskPriority priority, int targetTime, int actualTime) {
-		this.id = id;
-		this.title = validateTitle(title);
-		this.date = date;
-		this.completed = completed;
-		this.note = validateNote(note);
-		this.priority = priority;
-		this.targetTime = targetTime;
-		this.actualTime = actualTime;
+	private ProductivityTask(Builder builder) {
+		this.id = builder.id;
+		this.title = validateTitle(builder.title);
+		this.date = builder.date;
+		this.completed = builder.completed;
+		this.note = validateNote(builder.note);
+		this.priority = builder.priority;
+		this.targetTime = builder.targetTime;
+		this.actualTime = builder.actualTime;
 	}
 
 	public int getId() {
@@ -139,6 +140,55 @@ public class ProductivityTask {
 			return obj.hashCode() == this.hashCode();
 		} else {
 			return false;
+		}
+	}
+
+	public static class Builder {
+		// Required parameters
+		private final int id;
+		private final String title;
+		private final TaskDate date;
+		private final TaskPriority priority;
+
+		// Optional parameters
+		private boolean completed = false;
+		private String note = "";
+		private int targetTime = 0;
+		private int actualTime = 0;
+
+		public Builder(int id, String title, TaskDate date, TaskPriority priority) {
+			this.id = id;
+			this.title = title;
+			this.date = date;
+			this.priority = priority;
+		}
+
+		public Builder(int id, String title, Date date, TaskPriority priority) {
+			this(id, title, new TaskDate(date), priority);
+		}
+
+		public Builder completed(boolean completed) {
+			this.completed = completed;
+			return this;
+		}
+
+		public Builder note(String note) {
+			this.note = note;
+			return this;
+		}
+
+		public Builder targetTime(int targetTime) {
+			this.targetTime = targetTime;
+			return this;
+		}
+
+		public Builder actualTime(int actualTime) {
+			this.actualTime = actualTime;
+			return this;
+		}
+
+		public ProductivityTask build() {
+			return new ProductivityTask(this);
 		}
 	}
 }
