@@ -7,7 +7,7 @@ public class ProductivityTask {
 	private static final int TITLE_MAX_LENGTH = 30;
 	private static final int NOTE_MAX_LENGTH = 100;
 
-	private final int id;
+	private final String id;
 	private String title;
 	private TaskDate date;
 	private boolean completed;
@@ -27,7 +27,7 @@ public class ProductivityTask {
 		this.actualTime = builder.actualTime;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -123,7 +123,7 @@ public class ProductivityTask {
 
 	@Override
 	public int hashCode() {
-		int result = Integer.hashCode(id);
+		int result = id.hashCode();
 		result = 31 * result + title.hashCode();
 		result = 31 * result + date.hashCode();
 		result = 31 * result + Boolean.hashCode(completed);
@@ -145,7 +145,7 @@ public class ProductivityTask {
 
 	public static class Builder {
 		// Required parameters
-		private final int id;
+		private final String id;
 		private final String title;
 		private final TaskDate date;
 		private final TaskPriority priority;
@@ -156,14 +156,14 @@ public class ProductivityTask {
 		private int targetTime = 0;
 		private int actualTime = 0;
 
-		public Builder(int id, String title, TaskDate date, TaskPriority priority) {
+		public Builder(String id, String title, TaskDate date, TaskPriority priority) {
 			this.id = id;
 			this.title = title;
 			this.date = date;
 			this.priority = priority;
 		}
 
-		public Builder(int id, String title, Date date, TaskPriority priority) {
+		public Builder(String id, String title, Date date, TaskPriority priority) {
 			this(id, title, new TaskDate(date), priority);
 		}
 

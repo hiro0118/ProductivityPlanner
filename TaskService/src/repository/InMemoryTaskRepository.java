@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class InMemoryTaskRepository implements ITaskRepository {
 
-	private final Map<Integer, ProductivityTask> taskMap = new HashMap<>();
+	private final Map<String, ProductivityTask> taskMap = new HashMap<>();
 
 	@Override
 	public synchronized void save(ProductivityTask task) {
@@ -25,12 +25,12 @@ public class InMemoryTaskRepository implements ITaskRepository {
 	}
 
 	@Override
-	public synchronized void delete(int id) {
+	public synchronized void delete(String id) {
 		taskMap.remove(id);
 	}
 
 	@Override
-	public synchronized ProductivityTask find(int id) {
+	public synchronized ProductivityTask find(String id) {
 		return taskMap.get(id);
 	}
 

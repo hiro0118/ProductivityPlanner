@@ -2,6 +2,7 @@ package application;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TaskService implements ITaskService {
@@ -13,14 +14,22 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public void createTask(ProductivityTaskDto input) throws Exception {
-		ProductivityTask task = createProductivityTaskFrom(input);
+	public ProductivityTaskDto createTask(ProductivityTaskDto input) throws Exception {
+		ProductivityTask createdTask;
 		synchronized (repository) {
-			if (repository.find(task.getId()) == null) {
-				repository.save(task);
-			} else {
-				throw new Exception("A task with the ID already exists!");
-			}
+			String id = generateUniqueId(repository);
+			createdTask = createProductivityTaskWithIdFrom(input, id);
+			repository.save(createdTask);
+		}
+		return new ProductivityTaskDto(createdTask);
+	}
+
+	private String generateUniqueId(ITaskRepository repository) {
+		List<ProductivityTask> tasks = repository.getAll();
+		while (true) {
+			String randomId = UUID.randomUUID().toString();
+			boolean uniqueIdGenerated = tasks.stream().noneMatch(task -> task.getId().equals(randomId));
+			if (uniqueIdGenerated) { return randomId; }
 		}
 	}
 
@@ -37,11 +46,11 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public boolean deleteTask(int taskId) {
+	public boolean deleteTask(String id) {
 		synchronized (repository) {
-			ProductivityTask task = repository.find(taskId);
+			ProductivityTask task = repository.find(id);
 			if (task != null) {
-				repository.delete(taskId);
+				repository.delete(id);
 				return true;
 			} else {
 				return false;
@@ -59,12 +68,12 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public ProductivityTaskDto getTask(int id) {
+	public ProductivityTaskDto getTask(String id) {
 		ProductivityTask taskInRepository;
 		synchronized (repository) {
 			taskInRepository = repository.find(id);
 		}
-		return new ProductivityTaskDto(taskInRepository);
+		return taskInRepository == null ? null : new ProductivityTaskDto(taskInRepository);
 	}
 
 	@Override
@@ -82,6 +91,15 @@ public class TaskService implements ITaskService {
 
 	private ProductivityTask createProductivityTaskFrom(ProductivityTaskDto input) {
 		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDate(), input.getPriority())
+				.completed(input.isCompleted())
+				.note(input.getNote())
+				.targetTime(input.getTargetTime())
+				.actualTime(input.getActualTime())
+				.build();
+	}
+
+	private ProductivityTask createProductivityTaskWithIdFrom(ProductivityTaskDto input, String id) {
+		return new ProductivityTask.Builder(id, input.getTitle(), input.getDate(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
 				.targetTime(input.getTargetTime())

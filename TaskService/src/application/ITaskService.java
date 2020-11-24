@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface ITaskService {
 
-	void createTask(ProductivityTaskDto input) throws Exception;
+	ProductivityTaskDto createTask(ProductivityTaskDto input) throws Exception;
 
 	void updateTask(ProductivityTaskDto input) throws Exception;
 
-	boolean deleteTask(int taskId);
+	boolean deleteTask(String id);
 
 	List<ProductivityTaskDto> getAllTasks();
 
-	ProductivityTaskDto getTask(int id);
+	ProductivityTaskDto getTask(String id);
 
 	List<ProductivityTaskDto> getTasksOn(Date date);
 }

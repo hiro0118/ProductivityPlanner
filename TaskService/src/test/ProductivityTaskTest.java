@@ -25,7 +25,7 @@ class ProductivityTaskTest {
 	}
 
 	private ProductivityTask.Builder createDefaultBuilder() {
-		return new ProductivityTask.Builder(1, "title", new Date(1500000000000L), TaskPriority.MOST_IMPORTANT);
+		return new ProductivityTask.Builder("1", "title", new Date(1500000000000L), TaskPriority.MOST_IMPORTANT);
 	}
 
 	@Test
@@ -35,15 +35,15 @@ class ProductivityTaskTest {
 
 		TaskDate date = new TaskDate(new Date(1500000000));
 		TaskPriority priority = TaskPriority.MOST_IMPORTANT;
-		ProductivityTask task = new ProductivityTask.Builder(1, "title", date, priority).build();
-		ProductivityTask sameTask = new ProductivityTask.Builder(1, "title", date, priority).build();
-		ProductivityTask diffId = new ProductivityTask.Builder(2, "title", date, priority).build();
-		ProductivityTask diffTitle = new ProductivityTask.Builder(1, "diffTitle", date, priority).build();
-		ProductivityTask diffDate = new ProductivityTask.Builder(1, "title", new TaskDate(new Date(1600000000)), priority).build();
-		ProductivityTask diffNote = new ProductivityTask.Builder(1, "title", date, priority).note("diffMote").build();
-		ProductivityTask diffPriority = new ProductivityTask.Builder(1, "title", date, TaskPriority.SECONDARY).build();
-		ProductivityTask diffTarget = new ProductivityTask.Builder(1, "title", date, priority).targetTime(1).build();
-		ProductivityTask diffActual = new ProductivityTask.Builder(1, "title", date, priority).actualTime(1).build();
+		ProductivityTask task = new ProductivityTask.Builder("1", "title", date, priority).build();
+		ProductivityTask sameTask = new ProductivityTask.Builder("1", "title", date, priority).build();
+		ProductivityTask diffId = new ProductivityTask.Builder("2", "title", date, priority).build();
+		ProductivityTask diffTitle = new ProductivityTask.Builder("1", "diffTitle", date, priority).build();
+		ProductivityTask diffDate = new ProductivityTask.Builder("1", "title", new TaskDate(new Date(1600000000)), priority).build();
+		ProductivityTask diffNote = new ProductivityTask.Builder("1", "title", date, priority).note("diffMote").build();
+		ProductivityTask diffPriority = new ProductivityTask.Builder("1", "title", date, TaskPriority.SECONDARY).build();
+		ProductivityTask diffTarget = new ProductivityTask.Builder("1", "title", date, priority).targetTime(1).build();
+		ProductivityTask diffActual = new ProductivityTask.Builder("1", "title", date, priority).actualTime(1).build();
 
 		tasks.add(task);
 		tasks.add(sameTask);
@@ -78,7 +78,7 @@ class ProductivityTaskTest {
 
 	private void assertNoExceptionForTitle(String titleInput) {
 		Assertions.assertDoesNotThrow(() -> {
-			new ProductivityTask.Builder(1, titleInput, new Date(1500000000000L), TaskPriority.MOST_IMPORTANT).build();
+			new ProductivityTask.Builder("1", titleInput, new Date(1500000000000L), TaskPriority.MOST_IMPORTANT).build();
 		});
 	}
 
@@ -106,7 +106,7 @@ class ProductivityTaskTest {
 	}
 
 	private <T extends Throwable> void assertTitleExceptionInCreation(String titleInput, Class<T> expectedType, String expectedMessage) {
-		T exception = Assertions.assertThrows(expectedType, () -> new ProductivityTask.Builder(1, titleInput, new Date(1500000000), TaskPriority.MOST_IMPORTANT).build());
+		T exception = Assertions.assertThrows(expectedType, () -> new ProductivityTask.Builder("1", titleInput, new Date(1500000000), TaskPriority.MOST_IMPORTANT).build());
 		String actualMessage = exception.getMessage();
 		Assertions.assertTrue(actualMessage.contains(expectedMessage));
 	}

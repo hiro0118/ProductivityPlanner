@@ -8,9 +8,9 @@ public interface ITaskRepository {
 
 	void update(ProductivityTask task);
 
-	void delete(int id);
+	void delete(String id);
 
-	ProductivityTask find(int id);
+	ProductivityTask find(String id);
 
 	List<ProductivityTask> getAll();
 }

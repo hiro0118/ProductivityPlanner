@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProductivityTaskDto {
 
-	private final int id; //TODO id is unnecessary for input!
+	private final String id;
 	private final String title;
 	private final Date date;
 	private final boolean completed;
@@ -13,7 +13,7 @@ public class ProductivityTaskDto {
 	private final int targetTime;
 	private final int actualTime;
 
-	public ProductivityTaskDto(int id, String title, Date date, boolean completed, String note,
+	public ProductivityTaskDto(String id, String title, Date date, boolean completed, String note,
 			TaskPriority priority, int targetTime,int actualTime) {
 		this.id = id;
 		this.title = title;
@@ -23,6 +23,11 @@ public class ProductivityTaskDto {
 		this.priority = priority;
 		this.targetTime = targetTime;
 		this.actualTime = actualTime;
+	}
+
+	public ProductivityTaskDto(String title, Date date, boolean completed, String note,
+			TaskPriority priority, int targetTime,int actualTime) {
+		this("", title, date, completed, note, priority, targetTime, actualTime);
 	}
 
 	public ProductivityTaskDto(ProductivityTask source) {
@@ -36,7 +41,7 @@ public class ProductivityTaskDto {
 		this.actualTime = source.getActualTime();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -84,7 +89,7 @@ public class ProductivityTaskDto {
 
 	@Override
 	public int hashCode() {
-		int result = Integer.hashCode(id);
+		int result = id.hashCode();
 		result = 31 * result + title.hashCode();
 		result = 31 * result + date.hashCode();
 		result = 31 * result + Boolean.hashCode(completed);
