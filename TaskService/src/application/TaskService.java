@@ -18,7 +18,7 @@ public class TaskService implements ITaskService {
 		ProductivityTask createdTask;
 		synchronized (repository) {
 			String id = generateUniqueId(repository);
-			createdTask = createProductivityTaskWithIdFrom(input, id);
+			createdTask = createTaskFromDtoWithId(input, id);
 			repository.save(createdTask);
 		}
 		return new ProductivityTaskDto(createdTask);
@@ -35,7 +35,7 @@ public class TaskService implements ITaskService {
 
 	@Override
 	public void updateTask(ProductivityTaskDto input) throws Exception {
-		ProductivityTask task = createProductivityTaskFrom(input);
+		ProductivityTask task = createTaskFromDto(input);
 		synchronized (repository) {
 			if (repository.find(task.getId()) != null) {
 				repository.update(task);
@@ -89,7 +89,7 @@ public class TaskService implements ITaskService {
 				.collect(Collectors.toList());
 	}
 
-	private ProductivityTask createProductivityTaskFrom(ProductivityTaskDto input) {
+	private ProductivityTask createTaskFromDto(ProductivityTaskDto input) {
 		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDate(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
@@ -98,7 +98,7 @@ public class TaskService implements ITaskService {
 				.build();
 	}
 
-	private ProductivityTask createProductivityTaskWithIdFrom(ProductivityTaskDto input, String id) {
+	private ProductivityTask createTaskFromDtoWithId(ProductivityTaskDto input, String id) {
 		return new ProductivityTask.Builder(id, input.getTitle(), input.getDate(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
