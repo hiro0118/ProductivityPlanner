@@ -20,7 +20,7 @@ public class TaskDate {
 		return formatter;
 	}
 
-	public Date getDate() {
+	public Date getRawDate() {
 		return new Date(date.getTime());
 	}
 
