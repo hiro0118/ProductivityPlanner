@@ -1,6 +1,5 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ITaskService {
@@ -15,5 +14,5 @@ public interface ITaskService {
 
 	ProductivityTaskDto getTask(String id);
 
-	List<ProductivityTaskDto> getTasksOn(Date date);
+	List<ProductivityTaskDto> getTasksOn(String dateString);
 }

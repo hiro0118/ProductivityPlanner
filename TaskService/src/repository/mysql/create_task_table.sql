@@ -5,7 +5,7 @@ USE task_service;
 CREATE TABLE IF NOT EXISTS tasks (
     id VARCHAR(36) NOT NULL,
     title VARCHAR(30) NOT NULL,
-    task_date DATE NOT NULL,
+    task_date VARCHAR(10) NOT NULL,
     completed BOOLEAN NOT NULL DEFAULT 0,
     note VARCHAR(100) NOT NULL DEFAULT '',
     priority VARCHAR(20) DEFAULT NULL,

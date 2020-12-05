@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 import repository.mysql.IMysqlConfiguration;
 import repository.mysql.MySqlTaskRepository;
 
-import java.util.Date;
 import java.util.List;
 
 class MySqlTaskRepositoryTest {
@@ -28,13 +27,13 @@ class MySqlTaskRepositoryTest {
 
 	@Test
 	public void save_twoTasks_saved() {
-		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", new Date(1600000000000L), TaskPriority.MOST_IMPORTANT)
+		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", "2020-12-4", TaskPriority.MOST_IMPORTANT)
 				.completed(true)
 				.note("note1")
 				.targetTime(1)
 				.actualTime(2)
 				.build();
-		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", new Date(1610000000000L), TaskPriority.SECONDARY)
+		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", "2020-12-5", TaskPriority.SECONDARY)
 				.completed(false)
 				.note("note2")
 				.targetTime(3)
@@ -52,13 +51,13 @@ class MySqlTaskRepositoryTest {
 
 	@Test
 	public void update_updateProperties_updated() {
-		ProductivityTask task1 = new ProductivityTask.Builder("common_id", "title1", new Date(1600000000000L), TaskPriority.MOST_IMPORTANT)
+		ProductivityTask task1 = new ProductivityTask.Builder("common_id", "title1", "2020-12-4", TaskPriority.MOST_IMPORTANT)
 				.completed(true)
 				.note("note1")
 				.targetTime(1)
 				.actualTime(2)
 				.build();
-		ProductivityTask task2 = new ProductivityTask.Builder("common_id", "title2", new Date(1610000000000L), TaskPriority.SECONDARY)
+		ProductivityTask task2 = new ProductivityTask.Builder("common_id", "title2", "2020-12-5", TaskPriority.SECONDARY)
 				.completed(false)
 				.note("note2")
 				.targetTime(3)
@@ -82,13 +81,13 @@ class MySqlTaskRepositoryTest {
 
 	@Test
 	public void delete_deleteTwoTasks_deleted() {
-		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", new Date(1600000000000L), TaskPriority.MOST_IMPORTANT)
+		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", "2020-12-4", TaskPriority.MOST_IMPORTANT)
 				.completed(true)
 				.note("note1")
 				.targetTime(1)
 				.actualTime(2)
 				.build();
-		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", new Date(1610000000000L), TaskPriority.SECONDARY)
+		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", "2020-12-5", TaskPriority.SECONDARY)
 				.completed(false)
 				.note("note2")
 				.targetTime(3)
@@ -102,7 +101,7 @@ class MySqlTaskRepositoryTest {
 		tasks = repository.getAll();
 		Assertions.assertEquals(2, tasks.size());
 		Assertions.assertTrue(tasks.contains(task1));
-		Assertions.assertTrue(tasks.contains(task2)); // FIXME date mismatch!!
+		Assertions.assertTrue(tasks.contains(task2));
 
 		repository.delete(task1.getId());
 		tasks = repository.getAll();
@@ -121,11 +120,10 @@ class MySqlTaskRepositoryTest {
 	public void findTest() {
 		ITaskRepository repository = new MySqlTaskRepository(new TestMysqlConfiguration());
 		ProductivityTask task = repository.find("1606686975445");
-		System.out.println("match=" + task);
 	}
 
 	@Test
-	public void getALlTest() {
+	public void getAllTest() {
 		ITaskRepository repository = new MySqlTaskRepository(new TestMysqlConfiguration());
 		List<ProductivityTask> task = repository.getAll();
 		task.forEach(System.out::println);

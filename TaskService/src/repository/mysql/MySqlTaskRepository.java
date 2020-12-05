@@ -2,11 +2,11 @@ package repository.mysql;
 
 import application.ITaskRepository;
 import application.ProductivityTask;
+import application.TaskDate;
 import application.TaskPriority;
 
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 public class MySqlTaskRepository implements ITaskRepository {
 
@@ -86,7 +86,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 			 PreparedStatement statement = connection.prepareStatement(insertQuery)) {
 			statement.setString(1, task.getId());
 			statement.setString(2, task.getTitle());
-			statement.setDate(3, new java.sql.Date(task.getDate().getRawDate().getTime()));
+			statement.setString(3, task.getDate().getDateString());
 			statement.setBoolean(4, task.isCompleted());
 			statement.setString(5, task.getNote());
 			statement.setString(6, task.getPriority().toString());
@@ -104,7 +104,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 			 PreparedStatement statement = connection.prepareStatement(updateQuery)) {
 			// SET
 			statement.setString(1, task.getTitle());
-			statement.setDate(2, new java.sql.Date(task.getDate().getRawDate().getTime()));
+			statement.setString(2, task.getDate().getDateString());
 			statement.setBoolean(3, task.isCompleted());
 			statement.setString(4, task.getNote());
 			statement.setString(5, task.getPriority().toString());
@@ -166,13 +166,13 @@ public class MySqlTaskRepository implements ITaskRepository {
 	private ProductivityTask buildTaskFrom(ResultSet result) throws SQLException {
 		String id = result.getString("id");
 		String title = result.getString("title");
-		java.sql.Date sqlDate = result.getDate("task_date");
+		String dateString = result.getString("task_date");
 		boolean completed = result.getBoolean("completed");
 		String note = result.getString("note");
 		TaskPriority priority = TaskPriority.valueOf(result.getString("priority"));
 		int target = result.getInt("target");
 		int actual = result.getInt("actual");
-		return new ProductivityTask.Builder(id, title, new Date(sqlDate.getTime()), priority)
+		return new ProductivityTask.Builder(id, title, new TaskDate(dateString), priority)
 				.completed(completed)
 				.note(note)
 				.targetTime(target)

@@ -1,23 +1,21 @@
 package application;
 
-import java.util.Date;
-
 public class ProductivityTaskDto {
 
 	private final String id;
 	private final String title;
-	private final Date date;
+	private final String dateString; // yyyy-MM-dd
 	private final boolean completed;
 	private final String note;
 	private final TaskPriority priority;
 	private final int targetTime;
 	private final int actualTime;
 
-	public ProductivityTaskDto(String id, String title, Date date, boolean completed, String note,
+	public ProductivityTaskDto(String id, String title, String dateString, boolean completed, String note,
 			TaskPriority priority, int targetTime,int actualTime) {
 		this.id = id;
 		this.title = title;
-		this.date = date;
+		this.dateString = dateString;
 		this.completed = completed;
 		this.note = note;
 		this.priority = priority;
@@ -25,15 +23,15 @@ public class ProductivityTaskDto {
 		this.actualTime = actualTime;
 	}
 
-	public ProductivityTaskDto(String title, Date date, boolean completed, String note,
+	public ProductivityTaskDto(String title, String dateString, boolean completed, String note,
 			TaskPriority priority, int targetTime,int actualTime) {
-		this("", title, date, completed, note, priority, targetTime, actualTime);
+		this("", title, dateString, completed, note, priority, targetTime, actualTime);
 	}
 
 	public ProductivityTaskDto(ProductivityTask source) {
 		this.id = source.getId();
 		this.title = source.getTitle();
-		this.date = source.getDate().getRawDate();
+		this.dateString = source.getDate().getDateString();
 		this.completed = source.isCompleted();
 		this.note = source.getNote();
 		this.priority = source.getPriority();
@@ -49,8 +47,8 @@ public class ProductivityTaskDto {
 		return title;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDateString() {
+		return dateString;
 	}
 
 	public boolean isCompleted() {
@@ -78,7 +76,7 @@ public class ProductivityTaskDto {
 		builder.append(getClass().getSimpleName());
 		builder.append("@").append(id);
 		builder.append("[title=").append(title);
-		builder.append(",date=").append(date);
+		builder.append(",date=").append(dateString);
 		builder.append(",completed=").append(completed);
 		builder.append(",priority=").append(priority);
 		builder.append(",targetTime=").append(targetTime);
@@ -91,7 +89,7 @@ public class ProductivityTaskDto {
 	public int hashCode() {
 		int result = id.hashCode();
 		result = 31 * result + title.hashCode();
-		result = 31 * result + date.hashCode();
+		result = 31 * result + dateString.hashCode();
 		result = 31 * result + Boolean.hashCode(completed);
 		result = 31 * result + note.hashCode();
 		result = 31 * result + priority.hashCode();

@@ -1,6 +1,5 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,12 +76,12 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public List<ProductivityTaskDto> getTasksOn(Date date) {
+	public List<ProductivityTaskDto> getTasksOn(String dateString) {
 		List<ProductivityTask> tasksInRepository;
 		synchronized (repository) {
 			tasksInRepository = repository.getAll();
 		}
-		TaskDate taskDate = new TaskDate(date);
+		TaskDate taskDate = new TaskDate(dateString);
 		return tasksInRepository.stream()
 				.filter(task -> task.getDate().equals(taskDate))
 				.map(task -> new ProductivityTaskDto(task))
@@ -90,7 +89,7 @@ public class TaskService implements ITaskService {
 	}
 
 	private ProductivityTask createTaskFromDto(ProductivityTaskDto input) {
-		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDate(), input.getPriority())
+		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDateString(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
 				.targetTime(input.getTargetTime())
@@ -99,7 +98,7 @@ public class TaskService implements ITaskService {
 	}
 
 	private ProductivityTask createTaskFromDtoWithId(ProductivityTaskDto input, String id) {
-		return new ProductivityTask.Builder(id, input.getTitle(), input.getDate(), input.getPriority())
+		return new ProductivityTask.Builder(id, input.getTitle(), input.getDateString(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
 				.targetTime(input.getTargetTime())

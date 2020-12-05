@@ -2,48 +2,63 @@ package application;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 public class TaskDate {
 
 	private final Calendar calendar;
-	private final String DateString;
+	private final String dateString;
 
-	public TaskDate(Date date) {
-		this(date.getTime());
+	public TaskDate(String dateString) {
+		this.calendar = buildCalendarFrom(dateString);
+		this.dateString = buildDateFormatter().format(calendar.getTime());
 	}
 
-	public TaskDate(long time) {
-		this.calendar =  new Calendar.Builder()
-				.setInstant(time)
-				.setTimeOfDay(0, 0, 0) // masks the time
-				.build();
-		this.DateString = buildDateFormatter().format(this.calendar);
+	private Calendar buildCalendarFrom(String dateString) {
+		String[] dateData = dateString.split("-"); // yyyy-MM-dd
+		if (dateData.length != 3) {
+			throw new IllegalArgumentException("String for date is not formatted properly: " + dateString);
+		}
+
+		int year = Integer.parseInt(dateData[0]);
+		int month = Integer.parseInt(dateData[1]);
+		int day = Integer.parseInt(dateData[2]);
+		if (!valueIsInRange(year, 2000, 3000) || !valueIsInRange(month, 1, 12) || !valueIsInRange(day, 1, 31)) {
+			throw new IllegalArgumentException("String for date is not formatted properly: " + dateString);
+		}
+
+		try {
+			return new Calendar.Builder()
+					.setDate(year, month - 1, day)
+					.setTimeZone(TimeZone.getTimeZone("GMT"))
+					.build();
+		} catch (Exception e) {
+			throw new IllegalArgumentException("String for date is not formatted properly: " + dateString, e);
+		}
+	}
+
+	private boolean valueIsInRange(int value, int min, int max) {
+		return (min <= value) && (value <= max);
 	}
 
 	private SimpleDateFormat buildDateFormatter() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 		return formatter;
 	}
 
-	public Date getRawDate() {
-		return calendar.getTime();
-	}
-
-	public long getTimestamp() {
-		return calendar.getTimeInMillis();
+	public String getDateString() {
+		return dateString;
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "=" + DateString;
+		return getClass().getSimpleName() + "=" + dateString;
 	}
 
 	@Override
 	public int hashCode() {
-		return DateString.hashCode();
+		return dateString.hashCode();
 	}
 
 	@Override

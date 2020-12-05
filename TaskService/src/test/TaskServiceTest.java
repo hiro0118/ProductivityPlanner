@@ -38,7 +38,7 @@ class TaskServiceTest {
 		ProductivityTaskDto input2 = createDtoWithTitle("title2");
 		ProductivityTaskDto output2 = registerTaskWithService(service, input2);
 
-		ProductivityTaskDto update1 = new ProductivityTaskDto(output1.getId(), "title1_updated", new Date(1500000000), false, "note",
+		ProductivityTaskDto update1 = new ProductivityTaskDto(output1.getId(), "title1_updated", "2020-12-4", false, "note",
 				TaskPriority.MOST_IMPORTANT, 0, 0);
 		Assertions.assertDoesNotThrow(() -> service.updateTask(update1));
 
@@ -52,7 +52,7 @@ class TaskServiceTest {
 	public void updateTask_updateNonExistingTask_exceptionThrown() {
 		ProductivityTaskDto input1 = createDtoWithTitle("title1");
 		ProductivityTaskDto output1 = registerTaskWithService(service, input1);
-		ProductivityTaskDto update2 = new ProductivityTaskDto("randomId", "title_updated", new Date(1500000000), false, "note",
+		ProductivityTaskDto update2 = new ProductivityTaskDto("randomId", "title_updated", "2020-12-4", false, "note",
 				TaskPriority.MOST_IMPORTANT, 0, 0);
 		Exception e = Assertions.assertThrows(Exception.class, () -> service.updateTask(update2));
 		String actualMessage = e.getMessage();
@@ -101,8 +101,8 @@ class TaskServiceTest {
 
 	@Test
 	public void getTasksOn_getTasksForDifferentDates_returnsExpectedTask() {
-		Date dateA = new Date(1500000000000L);
-		Date dateB = new Date(1600000000000L);
+		String dateA = "2020-12-4";
+		String dateB = "2020-12-5";
 		ProductivityTaskDto input1 = createDtoWithTitleAndDate("title1", dateA);
 		ProductivityTaskDto input2 = createDtoWithTitleAndDate("title2", dateA);
 		ProductivityTaskDto input3 = createDtoWithTitleAndDate("title3", dateB);
@@ -119,16 +119,16 @@ class TaskServiceTest {
 		Assertions.assertEquals(1, tasksOnDateB.size());
 		Assertions.assertTrue(tasksOnDateB.contains(output3));
 
-		List<ProductivityTaskDto> tasksOnDifferentDate = service.getTasksOn(new Date(1700000000000L));
+		List<ProductivityTaskDto> tasksOnDifferentDate = service.getTasksOn("2020-12-6");
 		Assertions.assertEquals(0, tasksOnDifferentDate.size());
 	}
 
 	private ProductivityTaskDto createDtoWithTitle(String title) {
-		return new ProductivityTaskDto("", title, new Date(1500000000000L), false, "note",
+		return new ProductivityTaskDto("", title, "2020-12-4", false, "note",
 				TaskPriority.MOST_IMPORTANT, 0, 0);
 	}
 
-	private ProductivityTaskDto createDtoWithTitleAndDate(String title, Date date) {
+	private ProductivityTaskDto createDtoWithTitleAndDate(String title, String date) {
 		return new ProductivityTaskDto("", title, date, false, "note",
 				TaskPriority.MOST_IMPORTANT, 0, 0);
 	}
