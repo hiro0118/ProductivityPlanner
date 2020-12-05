@@ -1,38 +1,35 @@
-package repository;
+package repository.mysql;
 
 import application.ITaskRepository;
 import application.ProductivityTask;
 import application.TaskPriority;
 
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
+import java.util.Date;
 
 public class MySqlTaskRepository implements ITaskRepository {
 
-	// TODO Create a property file for these.
-	private static final String URL = "jdbc:mysql://localhost:3306/taskservice";
-	private static final String USER = "root";
-	private static final String PASS = "root";
+	private static final String TASK_TABLE = "tasks";
+	private static final String[] FIELDS = new String[]{"id", "title", "task_date", "completed", "note", "priority", "target", "actual"};
 
-	private static final String TASK_TABLE = "task";
-	private static final String[] FIELDS = new String[]{"id", "title", "date", "completed", "note", "priority", "target", "actual"};
+	private final String insertQuery = buildInsertQuery();
+	private final String updateQuery = buildUpdateQuery();
+	private final String deleteQuery = buildDeleteQuery();
+	private final String findQuery = buildSelectQuery();
+	private final String getAllQuery = buildGetAllQuery();
 
-	private final String insertQuery;
-	private final String updateQuery;
-	private final String deleteQuery;
-	private final String findQuery;
-	private final String getAllQuery;
+	private final String URL;
+	private final String USER;
+	private final String PASS;
 
-	public MySqlTaskRepository() {
-		insertQuery = buildInsertQuery();
-		updateQuery = buildUpdateQuery();
-		deleteQuery = buildDeleteQuery();
-		findQuery = buildSelectQuery();
-		getAllQuery = buildGetAllQuery();
+	public MySqlTaskRepository(IMysqlConfiguration config) {
+		URL = "jdbc:mysql://" + config.getAddress() + ":" + config.getPort() + "/" + config.getDatabase();
+		USER = config.getUser();
+		PASS = config.getPass();
 	}
 
-	private String buildInsertQuery() {
+	private static String buildInsertQuery() {
 		// Builds fields and values first.
 		StringBuilder fields = new StringBuilder();
 		StringBuilder values = new StringBuilder();
@@ -50,7 +47,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 				.concat(" VALUES (" + values.toString() + ");");
 	}
 
-	private String buildUpdateQuery() {
+	private static String buildUpdateQuery() {
 		// Builds the set clause first.
 		StringBuilder setClause = new StringBuilder();
 		Iterator<String> iterator = Arrays.stream(FIELDS).iterator();
@@ -67,15 +64,15 @@ public class MySqlTaskRepository implements ITaskRepository {
 				.concat(" WHERE id=?;");
 	}
 
-	private String buildDeleteQuery() {
+	private static String buildDeleteQuery() {
 		return "DELETE FROM " + TASK_TABLE + " WHERE id=?;";
 	}
 
-	private String buildSelectQuery() {
+	private static String buildSelectQuery() {
 		return "SELECT * FROM " + TASK_TABLE + " WHERE id=?;";
 	}
 
-	private String buildGetAllQuery() {
+	private static String buildGetAllQuery() {
 		return "SELECT * FROM " + TASK_TABLE;
 	}
 
@@ -89,7 +86,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 			 PreparedStatement statement = connection.prepareStatement(insertQuery)) {
 			statement.setString(1, task.getId());
 			statement.setString(2, task.getTitle());
-			statement.setDate(3, new Date(task.getDate().getRawDate().getTime()));
+			statement.setDate(3, new java.sql.Date(task.getDate().getRawDate().getTime()));
 			statement.setBoolean(4, task.isCompleted());
 			statement.setString(5, task.getNote());
 			statement.setString(6, task.getPriority().toString());
@@ -107,7 +104,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 			 PreparedStatement statement = connection.prepareStatement(updateQuery)) {
 			// SET
 			statement.setString(1, task.getTitle());
-			statement.setDate(2, new Date(task.getDate().getRawDate().getTime()));
+			statement.setDate(2, new java.sql.Date(task.getDate().getRawDate().getTime()));
 			statement.setBoolean(3, task.isCompleted());
 			statement.setString(4, task.getNote());
 			statement.setString(5, task.getPriority().toString());
@@ -169,13 +166,13 @@ public class MySqlTaskRepository implements ITaskRepository {
 	private ProductivityTask buildTaskFrom(ResultSet result) throws SQLException {
 		String id = result.getString("id");
 		String title = result.getString("title");
-		Date date = result.getDate("date");
+		java.sql.Date sqlDate = result.getDate("task_date");
 		boolean completed = result.getBoolean("completed");
 		String note = result.getString("note");
 		TaskPriority priority = TaskPriority.valueOf(result.getString("priority"));
 		int target = result.getInt("target");
 		int actual = result.getInt("actual");
-		return new ProductivityTask.Builder(id, title, date, priority)
+		return new ProductivityTask.Builder(id, title, new Date(sqlDate.getTime()), priority)
 				.completed(completed)
 				.note(note)
 				.targetTime(target)
