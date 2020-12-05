@@ -163,8 +163,8 @@ public class ProductivityTask {
 			this.priority = priority;
 		}
 
-		public Builder(String id, String title, Date date, TaskPriority priority) {
-			this(id, title, new TaskDate(date), priority);
+		public Builder(String id, String title, String dateString, TaskPriority priority) {
+			this(id, title, new TaskDate(dateString), priority);
 		}
 
 		public Builder completed(boolean completed) {

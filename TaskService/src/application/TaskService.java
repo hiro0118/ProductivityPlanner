@@ -1,6 +1,5 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ public class TaskService implements ITaskService {
 		ProductivityTask createdTask;
 		synchronized (repository) {
 			String id = generateUniqueId(repository);
-			createdTask = createProductivityTaskWithIdFrom(input, id);
+			createdTask = createTaskFromDtoWithId(input, id);
 			repository.save(createdTask);
 		}
 		return new ProductivityTaskDto(createdTask);
@@ -35,7 +34,7 @@ public class TaskService implements ITaskService {
 
 	@Override
 	public void updateTask(ProductivityTaskDto input) throws Exception {
-		ProductivityTask task = createProductivityTaskFrom(input);
+		ProductivityTask task = createTaskFromDto(input);
 		synchronized (repository) {
 			if (repository.find(task.getId()) != null) {
 				repository.update(task);
@@ -77,20 +76,20 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public List<ProductivityTaskDto> getTasksOn(Date date) {
+	public List<ProductivityTaskDto> getTasksOn(String dateString) {
 		List<ProductivityTask> tasksInRepository;
 		synchronized (repository) {
 			tasksInRepository = repository.getAll();
 		}
-		TaskDate taskDate = new TaskDate(date);
+		TaskDate taskDate = new TaskDate(dateString);
 		return tasksInRepository.stream()
 				.filter(task -> task.getDate().equals(taskDate))
 				.map(task -> new ProductivityTaskDto(task))
 				.collect(Collectors.toList());
 	}
 
-	private ProductivityTask createProductivityTaskFrom(ProductivityTaskDto input) {
-		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDate(), input.getPriority())
+	private ProductivityTask createTaskFromDto(ProductivityTaskDto input) {
+		return new ProductivityTask.Builder(input.getId(), input.getTitle(), input.getDateString(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
 				.targetTime(input.getTargetTime())
@@ -98,8 +97,8 @@ public class TaskService implements ITaskService {
 				.build();
 	}
 
-	private ProductivityTask createProductivityTaskWithIdFrom(ProductivityTaskDto input, String id) {
-		return new ProductivityTask.Builder(id, input.getTitle(), input.getDate(), input.getPriority())
+	private ProductivityTask createTaskFromDtoWithId(ProductivityTaskDto input, String id) {
+		return new ProductivityTask.Builder(id, input.getTitle(), input.getDateString(), input.getPriority())
 				.completed(input.isCompleted())
 				.note(input.getNote())
 				.targetTime(input.getTargetTime())
