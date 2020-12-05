@@ -1,17 +1,25 @@
 package application;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class TaskDate {
 
-	private final Date date;
+	private final Calendar calendar;
 	private final String DateString;
 
 	public TaskDate(Date date) {
-		this.date = new Date(date.getTime());
-		this.DateString = buildDateFormatter().format(this.date);
+		this(date.getTime());
+	}
+
+	public TaskDate(long time) {
+		this.calendar =  new Calendar.Builder()
+				.setInstant(time)
+				.setTimeOfDay(0, 0, 0) // masks the time
+				.build();
+		this.DateString = buildDateFormatter().format(this.calendar);
 	}
 
 	private SimpleDateFormat buildDateFormatter() {
@@ -21,7 +29,11 @@ public class TaskDate {
 	}
 
 	public Date getRawDate() {
-		return new Date(date.getTime());
+		return calendar.getTime();
+	}
+
+	public long getTimestamp() {
+		return calendar.getTimeInMillis();
 	}
 
 	@Override
