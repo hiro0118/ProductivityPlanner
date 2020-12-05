@@ -1,6 +1,5 @@
 package test;
 
-import application.ITaskRepository;
 import application.ProductivityTask;
 import application.TaskPriority;
 import org.junit.jupiter.api.*;
@@ -117,16 +116,86 @@ class MySqlTaskRepositoryTest {
 	}
 
 	@Test
-	public void findTest() {
-		ITaskRepository repository = new MySqlTaskRepository(new TestMysqlConfiguration());
-		ProductivityTask task = repository.find("1606686975445");
+	public void find_saveTasksAndFindThem_tasksFound() {
+		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", "2020-01-01", TaskPriority.MOST_IMPORTANT)
+				.completed(true)
+				.note("note1")
+				.targetTime(1)
+				.actualTime(2)
+				.build();
+		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", "2020-01-02", TaskPriority.SECONDARY)
+				.completed(false)
+				.note("note2")
+				.targetTime(2)
+				.actualTime(3)
+				.build();
+		repository.save(task1);
+		repository.save(task2);
+		Assertions.assertEquals(task1, repository.find("id1"));
+		Assertions.assertEquals(task2, repository.find("id2"));
+		Assertions.assertNull(repository.find("id3"));
 	}
 
 	@Test
-	public void getAllTest() {
-		ITaskRepository repository = new MySqlTaskRepository(new TestMysqlConfiguration());
-		List<ProductivityTask> task = repository.getAll();
-		task.forEach(System.out::println);
+	public void getAll_saveTasksAndGetAll_allFound() {
+		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", "2020-01-01", TaskPriority.MOST_IMPORTANT)
+				.completed(true)
+				.note("note1")
+				.targetTime(1)
+				.actualTime(2)
+				.build();
+		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", "2020-01-02", TaskPriority.SECONDARY)
+				.completed(false)
+				.note("note2")
+				.targetTime(2)
+				.actualTime(3)
+				.build();
+		repository.save(task1);
+		repository.save(task2);
+		List<ProductivityTask> tasks = repository.getAll();
+		Assertions.assertEquals(2, tasks.size());
+		Assertions.assertTrue(tasks.contains(task1));
+		Assertions.assertTrue(tasks.contains(task2));
+	}
+
+	@Test
+	public void getAll_saveIncrementally_allFound() {
+		List<ProductivityTask> tasks;
+		ProductivityTask task1 = new ProductivityTask.Builder("id1", "title1", "2020-01-01", TaskPriority.MOST_IMPORTANT)
+				.completed(true)
+				.note("note1")
+				.targetTime(1)
+				.actualTime(2)
+				.build();
+		repository.save(task1);
+		tasks = repository.getAll();
+		Assertions.assertEquals(1, tasks.size());
+		Assertions.assertTrue(tasks.contains(task1));
+
+		ProductivityTask task2 = new ProductivityTask.Builder("id2", "title2", "2020-01-02", TaskPriority.SECONDARY)
+				.completed(false)
+				.note("note2")
+				.targetTime(2)
+				.actualTime(3)
+				.build();
+		repository.save(task2);
+		tasks = repository.getAll();
+		Assertions.assertEquals(2, tasks.size());
+		Assertions.assertTrue(tasks.contains(task1));
+		Assertions.assertTrue(tasks.contains(task2));
+
+		ProductivityTask task3 = new ProductivityTask.Builder("id3", "title3", "2020-01-03", TaskPriority.ADDITIONAL)
+				.completed(true)
+				.note("note3")
+				.targetTime(3)
+				.actualTime(4)
+				.build();
+		repository.save(task3);
+		tasks = repository.getAll();
+		Assertions.assertEquals(3, tasks.size());
+		Assertions.assertTrue(tasks.contains(task1));
+		Assertions.assertTrue(tasks.contains(task2));
+		Assertions.assertTrue(tasks.contains(task3));
 	}
 
 	private static class TestMysqlConfiguration implements IMysqlConfiguration {
