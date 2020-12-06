@@ -1,6 +1,6 @@
 package repository.mysql;
 
-import resource.PropertyUtil;
+import property.PropertyUtil;
 
 public class MysqlConfiguration implements IMysqlConfiguration {
 

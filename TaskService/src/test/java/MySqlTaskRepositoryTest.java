@@ -1,5 +1,3 @@
-package test;
-
 import application.ProductivityTask;
 import application.TaskPriority;
 import org.junit.jupiter.api.*;

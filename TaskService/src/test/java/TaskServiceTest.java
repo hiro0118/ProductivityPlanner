@@ -1,5 +1,3 @@
-package test;
-
 import application.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
