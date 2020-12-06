@@ -1,5 +1,3 @@
-package test;
-
 import application.TaskDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,8 +20,8 @@ class TaskDateTest {
 
 	@Test
 	void constructor_outOfRange_exceptionThrown() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("2019-12-31"));
-		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("2071-01-01"));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("1999-12-31"));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("3001-01-01"));
 		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("2020-0-01"));
 		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("2020-13-01"));
 		Assertions.assertThrows(IllegalArgumentException.class, () -> new TaskDate("2020-01-0"));
@@ -32,11 +30,11 @@ class TaskDateTest {
 
 	@Test
 	void constructor_insideRange_exceptionNotThrown() {
-		Assertions.assertDoesNotThrow(() -> new TaskDate("2020-01-01"));
+		Assertions.assertDoesNotThrow(() -> new TaskDate("2001-01-01"));
 		Assertions.assertDoesNotThrow(() -> new TaskDate("2020-06-02"));
 		Assertions.assertDoesNotThrow(() -> new TaskDate("2020-12-31"));
-		Assertions.assertDoesNotThrow(() -> new TaskDate("2070-12-30"));
-		Assertions.assertDoesNotThrow(() -> new TaskDate("2070-12-31"));
+		Assertions.assertDoesNotThrow(() -> new TaskDate("2999-12-30"));
+		Assertions.assertDoesNotThrow(() -> new TaskDate("2999-12-31"));
 	}
 
 	@Test

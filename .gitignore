@@ -1,1 +1,7 @@
 out/
+target/
+
+# Intellij
+.idea/
+*.iml
+*.iws

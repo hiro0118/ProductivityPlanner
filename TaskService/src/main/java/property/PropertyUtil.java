@@ -1,4 +1,4 @@
-package resource;
+package property;
 
 import java.io.FileInputStream;
 import java.util.Properties;
