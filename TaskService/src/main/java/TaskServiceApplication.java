@@ -3,7 +3,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("controller")
+@ComponentScan({"configuration", "controller"})
 public class TaskServiceApplication {
 
 	public static void main(String[] args) {

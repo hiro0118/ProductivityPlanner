@@ -1,6 +1,6 @@
 package repository.mysql;
 
-import property.PropertyUtil;
+import configuration.TaskProperties;
 
 public class MysqlConfiguration implements IMysqlConfiguration {
 
@@ -22,7 +22,7 @@ public class MysqlConfiguration implements IMysqlConfiguration {
 	private final String user;
 	private final String pass;
 
-	public MysqlConfiguration(PropertyUtil property) {
+	public MysqlConfiguration(TaskProperties property) {
 		address = property.getProperty(ADDRESS_KEY, ADDRESS_DEFAULT);
 		port = property.getProperty(PORT_KEY, PORT_DEFAULT);
 		database = property.getProperty(DATABASE_KEY, DATABASE_DEFAULT);
