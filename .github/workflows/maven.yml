@@ -20,7 +20,6 @@ jobs:
       with:
         java-version: 15
     - name: Test with Maven
-      #run: mvn -B test --file pom.xml
-      run: mvn test -Dtest=!MySqlTaskRepositoryTest
+      run: mvn -B test --file pom.xml -Dtest=!MySqlTaskRepositoryTest
       
 
