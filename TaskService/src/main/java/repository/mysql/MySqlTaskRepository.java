@@ -169,7 +169,7 @@ public class MySqlTaskRepository implements ITaskRepository {
 		String dateString = result.getString("task_date");
 		boolean completed = result.getBoolean("completed");
 		String note = result.getString("note");
-		TaskPriority priority = TaskPriority.valueOf(result.getString("priority"));
+		TaskPriority priority = TaskPriority.findMatch(result.getString("priority"));
 		int target = result.getInt("target");
 		int actual = result.getInt("actual");
 		return new ProductivityTask.Builder(id, title, new TaskDate(dateString), priority)

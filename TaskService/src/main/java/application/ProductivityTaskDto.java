@@ -23,11 +23,6 @@ public class ProductivityTaskDto {
 		this.actualTime = actualTime;
 	}
 
-	public ProductivityTaskDto(String title, String dateString, boolean completed, String note,
-			TaskPriority priority, int targetTime,int actualTime) {
-		this("", title, dateString, completed, note, priority, targetTime, actualTime);
-	}
-
 	public ProductivityTaskDto(ProductivityTask source) {
 		this.id = source.getId();
 		this.title = source.getTitle();

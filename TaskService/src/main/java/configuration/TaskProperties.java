@@ -1,13 +1,13 @@
-package property;
+package configuration;
 
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class PropertyUtil {
+public class TaskProperties {
 
 	private final Properties properties = new Properties();
 
-	public PropertyUtil(String filePath) {
+	public TaskProperties(String filePath) {
 		try (FileInputStream input = new FileInputStream(filePath)) {
 			properties.load(input);
 		} catch (Exception e) {
