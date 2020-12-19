@@ -1,4 +1,7 @@
-package application;
+package domain;
+
+import domain.entities.ProductivityTask;
+import domain.entities.TaskPriority;
 
 public class ProductivityTaskDto {
 

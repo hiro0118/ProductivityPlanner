@@ -1,6 +1,6 @@
-package repository.mysql;
+package repositories.mysql;
 
-import configuration.TaskProperties;
+import configurations.TaskProperties;
 
 public class MysqlConfiguration implements IMysqlConfiguration {
 

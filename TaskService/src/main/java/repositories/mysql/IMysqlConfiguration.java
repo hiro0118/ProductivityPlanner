@@ -1,4 +1,4 @@
-package repository.mysql;
+package repositories.mysql;
 
 public interface IMysqlConfiguration {
 

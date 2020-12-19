@@ -1,4 +1,4 @@
-package application;
+package domain.entities;
 
 import java.util.Arrays;
 

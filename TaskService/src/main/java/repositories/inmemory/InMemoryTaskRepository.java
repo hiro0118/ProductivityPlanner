@@ -1,7 +1,7 @@
-package repository.inmemory;
+package repositories.inmemory;
 
-import application.ITaskRepository;
-import application.ProductivityTask;
+import domain.ITaskRepository;
+import domain.entities.ProductivityTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,11 +1,11 @@
-package configuration;
+package configurations;
 
-import application.TaskService;
+import domain.TaskService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import repository.mysql.IMysqlConfiguration;
-import repository.mysql.MySqlTaskRepository;
-import repository.mysql.MysqlConfiguration;
+import repositories.mysql.IMysqlConfiguration;
+import repositories.mysql.MySqlTaskRepository;
+import repositories.mysql.MysqlConfiguration;
 
 @Configuration
 public class TaskDependencyConfiguration {

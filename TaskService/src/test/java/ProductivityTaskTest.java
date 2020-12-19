@@ -1,11 +1,10 @@
-import application.ProductivityTask;
-import application.TaskDate;
-import application.TaskPriority;
+import domain.entities.ProductivityTask;
+import domain.entities.TaskDate;
+import domain.entities.TaskPriority;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
