@@ -1,14 +1,15 @@
-import application.*;
+import domain.*;
+import domain.entities.TaskPriority;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import repository.inmemory.InMemoryTaskRepository;
+import repositories.inmemory.InMemoryTaskRepository;
 
 import java.util.*;
 
 class TaskServiceTest {
 
-	private TaskService service;
+	private ITaskService service;
 
 	@BeforeEach
 	public void initializeService() {

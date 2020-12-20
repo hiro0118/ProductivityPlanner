@@ -1,7 +1,7 @@
-package controller;
+package controllers;
 
-import application.ITaskService;
-import application.ProductivityTaskDto;
+import domain.ITaskService;
+import domain.ProductivityTaskDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

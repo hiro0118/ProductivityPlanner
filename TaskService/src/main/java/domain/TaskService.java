@@ -1,4 +1,7 @@
-package application;
+package domain;
+
+import domain.entities.ProductivityTask;
+import domain.entities.TaskDate;
 
 import java.util.List;
 import java.util.UUID;

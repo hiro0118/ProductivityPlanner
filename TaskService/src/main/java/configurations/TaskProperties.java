@@ -1,4 +1,4 @@
-package configuration;
+package configurations;
 
 import java.io.FileInputStream;
 import java.util.Properties;

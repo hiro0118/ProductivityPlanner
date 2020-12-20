@@ -1,9 +1,9 @@
-package repository.mysql;
+package repositories.mysql;
 
-import application.ITaskRepository;
-import application.ProductivityTask;
-import application.TaskDate;
-import application.TaskPriority;
+import domain.ITaskRepository;
+import domain.entities.ProductivityTask;
+import domain.entities.TaskDate;
+import domain.entities.TaskPriority;
 
 import java.sql.*;
 import java.util.*;

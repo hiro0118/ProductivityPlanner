@@ -1,6 +1,4 @@
-package application;
-
-import java.util.Date;
+package domain.entities;
 
 public class ProductivityTask {
 

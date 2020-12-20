@@ -1,4 +1,6 @@
-package application;
+package domain;
+
+import domain.entities.ProductivityTask;
 
 import java.util.List;
 

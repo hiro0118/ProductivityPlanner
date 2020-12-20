@@ -1,8 +1,8 @@
-import application.ProductivityTask;
-import application.TaskPriority;
+import domain.entities.ProductivityTask;
+import domain.entities.TaskPriority;
 import org.junit.jupiter.api.*;
-import repository.mysql.IMysqlConfiguration;
-import repository.mysql.MySqlTaskRepository;
+import repositories.mysql.IMysqlConfiguration;
+import repositories.mysql.MySqlTaskRepository;
 
 import java.util.List;
 
