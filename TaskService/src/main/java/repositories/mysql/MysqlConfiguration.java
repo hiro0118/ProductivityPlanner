@@ -10,7 +10,7 @@ public class MysqlConfiguration implements IMysqlConfiguration {
 	private static final String USER_KEY = "mysql.user";
 	private static final String PASS_KEY = "mysql.pass";
 
-	private static final String ADDRESS_DEFAULT = "localhost";
+	private static final String ADDRESS_DEFAULT = "productivityplanner_task-db_1";
 	private static final String PORT_DEFAULT = "3306";
 	private static final String DATABASE_DEFAULT = "task_service";
 	private static final String USER_DEFAULT = "root";
