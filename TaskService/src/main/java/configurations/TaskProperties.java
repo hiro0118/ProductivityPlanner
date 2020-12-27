@@ -11,7 +11,7 @@ public class TaskProperties {
 		try (FileInputStream input = new FileInputStream(filePath)) {
 			properties.load(input);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error! Property file doesn't exist at " + filePath);
 		}
 	}
 
