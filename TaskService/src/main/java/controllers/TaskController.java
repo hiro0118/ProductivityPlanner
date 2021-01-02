@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RequestMapping("/tasks")
@@ -26,9 +28,15 @@ public class TaskController {
 	}
 
 	@PostMapping
-	ProductivityTaskDto createNewTask(@RequestBody ProductivityTaskDto newTask) {
+	ResponseEntity createNewTask(@RequestBody ProductivityTaskDto newTask) {
 		try {
-			return service.createTask(newTask);
+			ProductivityTaskDto dto = service.createTask(newTask);
+			URI location = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(dto.getId())
+					.toUri();
+			return ResponseEntity.created(location).body(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -53,10 +61,5 @@ public class TaskController {
 	@DeleteMapping("/{id}")
 	void deleteTask(@PathVariable String id) {
 		boolean result = service.deleteTask(id);
-	}
-
-	@PostMapping("/test")
-	void deleteTask(@RequestBody boolean bool) {
-		System.out.println("reached: " + bool);
 	}
 }
