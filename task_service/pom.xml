@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>TaskService</artifactId>
+    <artifactId>task_service</artifactId>
     <version>1.0</version>
 
     <dependencies>
