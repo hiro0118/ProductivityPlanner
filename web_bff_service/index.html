@@ -1,13 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <title>ProductivityShare</title>
-    <link rel="stylesheet", href="css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Hiroshi Fuji">
+    <title>Productivity Share</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap-5.0.0-beta1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+    <script src="js/projectshare.js"></script>
 </head>
 
 <body>
-    <h1>Hello World!!</h1>
+
+    <!-- Nav Bar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.svg" width="40" height="40" class="d-inline-block" alt="">
+                Productivity Share
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Friends</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Log out</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <input type="date" id="date">
+        <button type="button" class="btn btn-primary mb-3" onclick="getTasks()">
+            Change Date
+        </button>
+
+        <!-- Button For New Task -->
+        <h3>Tasks on ...</h3>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            + New Task
+        </button>
+
+        <!-- Create New Task Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Board -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Task title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's
+                    content.</p>
+                <a href="#" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Task title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's
+                    content.</p>
+                <a href="#" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+
+        <!-- <h1>Sign In</h1>
+        <form>
+            <img class="mb-4" src="img/logo.svg" alt="" width="100" height="100">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <label for="inputEmail" class="visually-hidden">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputPassword" class="visually-hidden">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        </form> -->
+    </main>
 </body>
 
 </html>
