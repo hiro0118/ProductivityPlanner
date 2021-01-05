@@ -135,15 +135,16 @@
         <!-- Task Board -->
         <div id="taskboard"></div>
 
-        <!-- Functions run on start-up -->
-        <script type="text/javascript">
-            window.onload = function () {
-                document.getElementById('taskboardtitle').innerText = getToday();
-                registerNewTaskFormSubmitChecker();
-            }
-        </script>
-
     </main>
+
+    <!-- Functions run on start-up -->
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById('taskboardtitle').innerText = getToday();
+            registerNewTaskFormSubmitChecker();
+        }
+    </script>
+
 </body>
 
 </html>
