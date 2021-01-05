@@ -1,4 +1,7 @@
 function getTasks() {
+    var date = document.getElementById("date").value;
+    console.log(date);
+
     let request = new XMLHttpRequest();
     request.open('GET', 'http://localhost:49160/tasks/');
     request.onload = function () {

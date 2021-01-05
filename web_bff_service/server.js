@@ -7,6 +7,7 @@ const fs = require('fs');
 // Constants
 const PORT = 49160;
 const HOST = '0.0.0.0';
+const TASK_SERVICE_ADDRESS = 'http://task-app:8080/tasks/';
 
 // App
 const app = express();
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/tasks', (clientReq, clientRes) => {
 
-    http.get('http://task-app:8080/tasks/', (res) => {
+    http.get(TASK_SERVICE_ADDRESS, (res) => {
 
         let data = '';
 
