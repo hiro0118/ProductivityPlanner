@@ -1,4 +1,4 @@
-class taskElement extends HTMLElement {
+class taskcard extends HTMLElement {
     constructor() {
         super();
     }
@@ -32,4 +32,4 @@ class taskElement extends HTMLElement {
         ].join(' ');
     }
 }
-customElements.define('task-element', taskElement);
+customElements.define('task-card', taskcard);

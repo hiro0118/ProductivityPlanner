@@ -19,7 +19,7 @@
         crossorigin="anonymous"></script>
 
     <script src="js/frontend.js"></script>
-    <script src="js/taskelement.js"></script>
+    <script src="js/taskcard.js"></script>
 </head>
 
 <body>
@@ -66,8 +66,9 @@
         </button>
 
         <!-- Button For New Task -->
-        <h3>Tasks on ...</h3>
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <h3 id="taskboardtitle">No date selected.</h3>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            onclick="setDateForNewTaskModal()">
             + New Task
         </button>
 
@@ -77,15 +78,42 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">New Task</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        ...
+                    <div class="modal-body" id="new-task-modal-body">
+                        <form id="newTaskForm">
+                            <div class="form-group">
+                                <label for="inputTitle">Title</label>
+                                <input type="text" class="form-control" id="inputTitle" placeholder="Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDate">Date</label>
+                                <input type="text" class="form-control" id="inputDate" placeholder="Date">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputTargetTime">Target Time</label>
+                                <input type="text" class="form-control" id="inputTargetTime" placeholder="Target Time">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPriority">Priority</label>
+                                <select class="form-control" id="inputPriority">
+                                    <option>-</option>
+                                    <option>Most Important</option>
+                                    <option>Secondary</option>
+                                    <option>Additional</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNote">Note</label>
+                                <textarea class="form-control" id="inputNote" rows="3" placeholder="Note"></textarea>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Create</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="clearNewTaskModal()">Cancel</button>
+                        <button type="button" class="btn btn-primary">Create New Task</button>
                     </div>
                 </div>
             </div>
@@ -93,6 +121,17 @@
 
         <!-- Task Board -->
         <div id="taskboard"></div>
+
+        <script type="text/javascript">
+            window.onload = function () {
+                const date = new Date();
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+                const dd = String(date.getDate()).padStart(2, '0');
+                today = yyyy + '-' + mm + '-' + dd;
+                document.getElementById('taskboardtitle').innerText = today;
+            }
+        </script>
 
     </main>
 </body>
