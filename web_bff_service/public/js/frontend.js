@@ -1,14 +1,24 @@
 function getTasks() {
-    change();
     let request = new XMLHttpRequest();
     request.open('GET', 'http://localhost:49160/tasks/');
     request.onload = function () {
-        console.log(this.response);
+        var tasks = JSON.parse(this.responseText);
+        updateTasks(tasks);
     }
     request.send(null);
 }
 
-function change() {
-    var elem = document.getElementById("card1");
-    elem.innerHTML = "<h5 class='card-title' id='card1'>Task title2</h5>";
+function updateTasks(tasks) {
+    var taskboard = document.getElementById('taskboard');
+    var result = '';
+    for (task of tasks) {
+        result += [
+            '<task-element title="',
+            task.title,
+            '" date="',
+            task.dateString,
+            '"></task-element> '
+        ].join("");
+    }
+    taskboard.innerHTML = result;
 }
