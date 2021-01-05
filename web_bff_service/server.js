@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.get('/tasks', (clientReq, clientRes) => {
 
-    http.get('http://localhost:8080/tasks/', (res) => {
+    http.get('http://task-app:8080/tasks/', (res) => {
 
         let data = '';
 
@@ -31,6 +31,7 @@ app.get('/tasks', (clientReq, clientRes) => {
         });
 
         res.on('end', () => {
+            console.log('Returning: ' + data);
             clientRes.writeHead(200, { "Content-Type": "application/json" });
             clientRes.end(data);
         });
