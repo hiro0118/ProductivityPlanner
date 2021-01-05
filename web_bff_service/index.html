@@ -66,7 +66,7 @@
         </button>
 
         <!-- Button For New Task -->
-        <h3 id="taskboardtitle">No date selected.</h3>
+        <h3 id="taskboardtitle">-</h3>
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
             onclick="setDateForNewTaskModal()">
             + New Task
@@ -77,24 +77,35 @@
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
+
+                    <!-- Header -->
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">New Task</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            onclick="clearNewTaskModal()"></button>
                     </div>
+
+                    <!-- New Task Data Form -->
                     <div class="modal-body" id="new-task-modal-body">
-                        <form id="newTaskForm">
+                        <form class="needs-validation" id="newTaskForm" novalidate>
+                            <!-- Title -->
                             <div class="form-group">
                                 <label for="inputTitle">Title</label>
-                                <input type="text" class="form-control" id="inputTitle" placeholder="Title">
+                                <input type="text" class="form-control" id="inputTitle" placeholder="Title" required>
+                                <div class="invalid-feedback">Please enter a title.</div>
                             </div>
+                            <!-- Date -->
                             <div class="form-group">
                                 <label for="inputDate">Date</label>
-                                <input type="text" class="form-control" id="inputDate" placeholder="Date">
+                                <input type="text" class="form-control" id="inputDate" readonly>
                             </div>
+                            <!-- Time -->
                             <div class="form-group">
-                                <label for="inputTargetTime">Target Time</label>
-                                <input type="text" class="form-control" id="inputTargetTime" placeholder="Target Time">
+                                <label for="inputTargetTime">Target Time (h): </label> <span id="currentTime">0.5</span>
+                                <input type="range" class="form-range" id="inputTargetTime" min="1" max="12" step="1"
+                                    value="1" oninput="checkTimeInput(this.value)">
                             </div>
+                            <!-- Priority -->
                             <div class="form-group">
                                 <label for="inputPriority">Priority</label>
                                 <select class="form-control" id="inputPriority">
@@ -104,16 +115,18 @@
                                     <option>Additional</option>
                                 </select>
                             </div>
+                            <!-- Note -->
                             <div class="form-group">
                                 <label for="inputNote">Note</label>
                                 <textarea class="form-control" id="inputNote" rows="3" placeholder="Note"></textarea>
                             </div>
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    onclick="clearNewTaskModal()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create New Task</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            onclick="clearNewTaskModal()">Cancel</button>
-                        <button type="button" class="btn btn-primary">Create New Task</button>
                     </div>
                 </div>
             </div>
@@ -122,14 +135,11 @@
         <!-- Task Board -->
         <div id="taskboard"></div>
 
+        <!-- Functions run on start-up -->
         <script type="text/javascript">
             window.onload = function () {
-                const date = new Date();
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-                const dd = String(date.getDate()).padStart(2, '0');
-                today = yyyy + '-' + mm + '-' + dd;
-                document.getElementById('taskboardtitle').innerText = today;
+                document.getElementById('taskboardtitle').innerText = getToday();
+                registerNewTaskFormSubmitChecker();
             }
         </script>
 

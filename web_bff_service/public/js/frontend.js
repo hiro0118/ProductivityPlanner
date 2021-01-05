@@ -32,6 +32,15 @@ function updateTasks(tasks) {
     taskBoard.innerHTML = result;
 }
 
+
+function getToday() {
+    const date = new Date();
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const dd = String(date.getDate()).padStart(2, '0');
+    return yyyy + '-' + mm + '-' + dd;
+}
+
 function createNewTask() {
     // const title = document.getElementById("inputTitle");
     // const date = document.getElementById("inputDate");
@@ -51,4 +60,26 @@ function setDateForNewTaskModal() {
     } else {
         document.getElementById("inputDate").value = currentDate;
     }
+}
+
+function checkTimeInput(input) {
+    document.getElementById("currentTime").innerHTML = input * 0.5;
+}
+
+function registerNewTaskFormSubmitChecker() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            console.log(form);
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
 }
