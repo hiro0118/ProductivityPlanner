@@ -1,9 +1,13 @@
-function getTasks() {
+function onChangeDatePressed() {
     const date = document.getElementById("date").value;
     if (!date) {
         alert('Please enter date!');
         return;
     }
+    updateTaskBoard(date);
+}
+
+function updateTaskBoard(date) {
 
     const taskBoardTitle = document.getElementById("taskboardtitle");
     taskBoardTitle.innerHTML = date;
@@ -41,16 +45,15 @@ function getToday() {
     return yyyy + '-' + mm + '-' + dd;
 }
 
-function createNewTask() {
-    // const title = document.getElementById("inputTitle");
-    // const date = document.getElementById("inputDate");
-    // const targetTime = document.getElementById("inputTargetTime");
-    // const priority = document.getElementById("inputPriority");
-    // const note = document.getElementById("inputNote");
-}
-
 function clearNewTaskModal() {
     document.getElementById("newTaskForm").reset();
+
+    var forms = document.getElementsByClassName('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.classList.remove('was-validated');
+    });
 }
 
 function setDateForNewTaskModal() {
@@ -66,20 +69,52 @@ function checkTimeInput(input) {
     document.getElementById("currentTime").innerHTML = input * 0.5;
 }
 
-function registerNewTaskFormSubmitChecker() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+function onCreateNewTask() {
     var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        if (form.checkValidity()) {
+            sendPostTask();
+        }
+        form.classList.add('was-validated');
+    });
+}
 
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            console.log(form);
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
+function sendPostTask() {
+    const title = document.getElementById("inputTitle").value;
+    const date = document.getElementById("inputDate").value;
+    const targetTime = document.getElementById("inputTargetTime").value;
+    const priority = document.getElementById("inputPriority").value;
+    const note = document.getElementById("inputNote").value;
+
+    const newTaskJson = {};
+    newTaskJson.id = '';
+    newTaskJson.title = title;
+    newTaskJson.dateString = date;
+    newTaskJson.completed = false;
+    newTaskJson.note = note;
+    newTaskJson.priority = 'NOT_SET';
+    newTaskJson.targetTime = targetTime;
+    newTaskJson.actualTime = 0;
+
+    const request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:49160/tasks/');
+    request.setRequestHeader('Content-type', 'application/json');
+    request.onload = function () {
+        const task = JSON.parse(this.responseText);
+        const date = document.getElementById('taskboardtitle').innerText;
+        if (date) {
+            const taskBoard = document.getElementById('taskboard');
+            const originalHTML = taskBoard.innerHTML;
+            let result = '';
+            result += [
+                '<task-card title="',
+                task.title,
+                '" date="',
+                task.dateString,
+                '"></task-card> '
+            ].join("");
+            taskBoard.innerHTML += result;
+        }
+    }
+    request.send(JSON.stringify(newTaskJson));
 }

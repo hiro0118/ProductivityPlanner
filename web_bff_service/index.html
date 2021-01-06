@@ -61,7 +61,7 @@
     <main class="container">
 
         <input type="date" id="date">
-        <button type="button" class="btn btn-primary mb-3" onclick="getTasks()">
+        <button type="button" class="btn btn-primary mb-3" onclick="onChangeDatePressed()">
             Change Date
         </button>
 
@@ -124,7 +124,7 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                     onclick="clearNewTaskModal()">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Create New Task</button>
+                                <button type="button" class="btn btn-primary" onClick="onCreateNewTask()">Create New Task</button>
                             </div>
                         </form>
                     </div>
@@ -141,7 +141,6 @@
     <script type="text/javascript">
         window.onload = function () {
             document.getElementById('taskboardtitle').innerText = getToday();
-            registerNewTaskFormSubmitChecker();
         }
     </script>
 
