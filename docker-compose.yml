@@ -22,9 +22,18 @@ services:
   task-app:
     build: ./task_service/
     ports:
-      - "8080:8080"
+      - "49160:8080"
     depends_on:
       - task-db
+    networks:
+      - backend
+
+  web-server:
+    build: web_server/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - task_service
     networks:
       - backend
 
