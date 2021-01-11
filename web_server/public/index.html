@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Hiroshi Fuji">
+    <title>Productivity Share</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap-5.0.0-beta1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+    <script src="js/http-utils.js"></script>
+    <script src="js/task.js"></script>
+    <script src="js/task-card.js"></script>
+</head>
+
+<body>
+
+    <!-- Nav Bar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.svg" width="40" height="40" class="d-inline-block" alt="">
+                Productivity Share
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Friends</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Log out</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <input type="date" id="date">
+        <button type="button" class="btn btn-primary mb-3" onclick="onChangeDatePressed()">
+            Change Date
+        </button>
+
+        <!-- Button For New Task -->
+        <h3 id="taskboardtitle">-</h3>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            onclick="setDateForNewTaskForm()">
+            + New Task
+        </button>
+
+        <!-- Create New Task Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">New Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            onclick="resetNewTaskForm()"></button>
+                    </div>
+
+                    <!-- New Task Data Form -->
+                    <div class="modal-body" id="new-task-modal-body">
+                        <form class="needs-validation" id="newTaskForm" novalidate>
+                            <!-- Title -->
+                            <div class="form-group">
+                                <label for="inputTitle">Title</label>
+                                <input type="text" class="form-control" id="inputTitle" placeholder="Title" required>
+                                <div class="invalid-feedback">Please enter a title.</div>
+                            </div>
+                            <!-- Date -->
+                            <div class="form-group">
+                                <label for="inputDate">Date</label>
+                                <input type="text" class="form-control" id="inputDate" readonly>
+                            </div>
+                            <!-- Time -->
+                            <div class="form-group">
+                                <label for="inputTargetTime">Target Time (h): </label> <span id="currentTime">0.5</span>
+                                <input type="range" class="form-range" id="inputTargetTime" min="1" max="12" step="1"
+                                    value="1" oninput="checkTimeInput(this.value)">
+                            </div>
+                            <!-- Priority -->
+                            <div class="form-group">
+                                <label for="inputPriority">Priority</label>
+                                <select class="form-control" id="inputPriority">
+                                    <option>-</option>
+                                    <option>Most Important</option>
+                                    <option>Secondary</option>
+                                    <option>Additional</option>
+                                </select>
+                            </div>
+                            <!-- Note -->
+                            <div class="form-group">
+                                <label for="inputNote">Note</label>
+                                <textarea class="form-control" id="inputNote" rows="3" placeholder="Note"></textarea>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    onclick="resetNewTaskForm()">Cancel</button>
+                                <button type="button" class="btn btn-primary" onClick="onCreateNewTask()">Create New Task</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Board -->
+        <div id="taskboard"></div>
+
+    </main>
+
+    <!-- Functions run on start-up -->
+    <script type="text/javascript">
+        window.onload = function () {
+            const today = getToday();
+            document.getElementById('taskboardtitle').innerText = today;
+            updateTaskBoard(today);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -14,17 +14,26 @@ services:
         source: mysql-volume
         target: /var/lib/mysql
       - type: bind
-        source: ./TaskService/src/main/resources/db_init
+        source: ./task_service/src/main/resources/db_init
         target: /docker-entrypoint-initdb.d
     networks:
       - backend
 
   task-app:
-    build: ./TaskService/
+    build: ./task_service/
+    ports:
+      - "49160:8080"
+    depends_on:
+      - task-db
+    networks:
+      - backend
+
+  web-server:
+    build: web_server/
     ports:
       - "8080:8080"
     depends_on:
-      - task-db
+      - task-app
     networks:
       - backend
 
