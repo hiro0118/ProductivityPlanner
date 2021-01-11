@@ -18,8 +18,9 @@
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>
 
-    <script src="js/frontend.js"></script>
-    <script src="js/taskcard.js"></script>
+    <script src="js/http-utils.js"></script>
+    <script src="js/task.js"></script>
+    <script src="js/task-card.js"></script>
 </head>
 
 <body>
@@ -68,7 +69,7 @@
         <!-- Button For New Task -->
         <h3 id="taskboardtitle">-</h3>
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            onclick="setDateForNewTaskModal()">
+            onclick="setDateForNewTaskForm()">
             + New Task
         </button>
 
@@ -82,7 +83,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">New Task</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            onclick="clearNewTaskModal()"></button>
+                            onclick="resetNewTaskForm()"></button>
                     </div>
 
                     <!-- New Task Data Form -->
@@ -123,7 +124,7 @@
                             <!-- Buttons -->
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                    onclick="clearNewTaskModal()">Cancel</button>
+                                    onclick="resetNewTaskForm()">Cancel</button>
                                 <button type="button" class="btn btn-primary" onClick="onCreateNewTask()">Create New Task</button>
                             </div>
                         </form>
@@ -140,7 +141,9 @@
     <!-- Functions run on start-up -->
     <script type="text/javascript">
         window.onload = function () {
-            document.getElementById('taskboardtitle').innerText = getToday();
+            const today = getToday();
+            document.getElementById('taskboardtitle').innerText = today;
+            updateTaskBoard(today);
         }
     </script>
 
